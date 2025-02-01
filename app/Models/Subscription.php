@@ -19,4 +19,9 @@ class Subscription extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function subscriptionPayment()
+    {
+        return $this->hasOne(SubscriptionPayment::class);
+    }
 }
