@@ -48,4 +48,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function productCategories()
+    {
+        return $this->hasMany(ProductCategory::class);
+    }
 }
