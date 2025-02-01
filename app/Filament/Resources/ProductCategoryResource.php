@@ -6,24 +6,47 @@ use App\Filament\Resources\ProductCategoryResource\Pages;
 use App\Filament\Resources\ProductCategoryResource\RelationManagers;
 use App\Models\ProductCategory;
 use Filament\Forms;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class ProductCategoryResource extends Resource
 {
     protected static ?string $model = ProductCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $label = 'Kategori Produk';
+    protected static ?string $navigationGroup = 'Manajemen Produk';
 
+    public static function getEloquentQuery(): Builder
+    {
+        $user = Auth::user();
+        if ($user->role === 'admin') {
+            return parent::getEloquentQuery();
+        }
+        return parent::getEloquentQuery()->where('user_id', $user->id);
+    }
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Select::make('user_id')
+                    ->label('Merchant')
+                    ->relationship('user', 'name')
+                    ->required()
+                    ->hidden(fn() => Auth::user()->role === 'store'),
+                Forms\Components\TextInput::make('name')
+                    ->label('Nama Kategori')
+                    ->required(),
+                Forms\Components\FileUpload::make('icon')
+                    ->label('Icon')                    
+                    ->required(),
+               
             ]);
     }
 
@@ -31,13 +54,24 @@ class ProductCategoryResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('user.name')                    
+                    ->label('Merchant')
+                    ->hidden(fn() => Auth::user()->role === 'store'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Nama Kategori'),
+                Tables\Columns\ImageColumn::make('icon')
+                    ->label('Icon'),                
+                    
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('user')
+                    ->relationship('user', 'name')
+                    ->label('Merchant')
+                    ->hidden(fn() => Auth::user()->role === 'store'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
