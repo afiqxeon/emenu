@@ -87,6 +87,14 @@ class ProductResource extends Resource
                 Forms\Components\Toggle::make('is_popular')
                     ->label('Produk Populer')
                     ->required(),
+                Forms\Components\Repeater::make('productIngredients')
+                    ->label('Bahan Produk')
+                    ->relationship('productIngredients')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Nama Bahan')
+                            ->required(),
+                    ])->columnSpanFull(),
             ]);
     }
 

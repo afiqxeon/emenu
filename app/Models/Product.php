@@ -53,4 +53,9 @@ class Product extends Model
     {
         return $this->hasMany(TransactionDetail::class);
     }
+
+    public function productIngredients()
+    {
+        return $this->hasMany(ProductIngredient::class);
+    }
 }
