@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -16,10 +17,27 @@ class Product extends Model
         'name',
         'description',
         'price',
+        'rating',
+        'is_popular',
     ];
     protected $casts = [
         'price' => 'decimal:2',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if (Auth::user()->role === 'store') {
+                $model->user_id = Auth::user()->id; 
+            }            
+        });
+        static::updating(function ($model) {
+            if (Auth::user()->role === 'store') {
+                $model->user_id = Auth::user()->id; 
+            }            
+        });
+    }
 
     public function user()
     {

@@ -20,7 +20,7 @@ class ProductCategoryResource extends Resource
     protected static ?string $model = ProductCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
-    protected static ?string $label = 'Kategori Produk';
+    protected static ?string $navigationLabel = 'Kategori Produk';
     protected static ?string $navigationGroup = 'Manajemen Produk';
 
     public static function getEloquentQuery(): Builder
