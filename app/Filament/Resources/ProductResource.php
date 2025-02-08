@@ -22,6 +22,7 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Produk';
+    protected static ?string $label = 'Produk';
     protected static ?string $navigationGroup = 'Manajemen Produk';
 
      public static function getEloquentQuery(): Builder

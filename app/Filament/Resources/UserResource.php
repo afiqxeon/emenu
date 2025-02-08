@@ -22,7 +22,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
     //protected static ?string $group = 'Manajemen User';
-    protected static ?string $label = 'Manajemen User';
+    protected static ?string $label = 'User';
+    protected static ?string $navigationLabel = 'Manajemen User';
     public static function canViewAny(): bool
     {
         return Auth::user()->role === 'admin';
