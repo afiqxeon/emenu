@@ -46,6 +46,9 @@ class TransactionResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('Nama Customer')
                     ->required(),
+                Forms\Components\TextInput::make('phone_number')
+                    ->label('Nomor HP Customer')
+                    ->required(),
                 Forms\Components\TextInput::make('table_number')
                     ->label('Nomor Meja')
                     ->required(),
@@ -115,6 +118,10 @@ class TransactionResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama Customer')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('phone_number')
+                    ->label('No Hp Customer')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('table_number')
