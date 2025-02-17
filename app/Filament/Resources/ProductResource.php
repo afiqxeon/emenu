@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProductCategory;
+use App\Models\Subscription;
 
 
 class ProductResource extends Resource
@@ -32,6 +33,20 @@ class ProductResource extends Resource
             return parent::getEloquentQuery();
         }
         return parent::getEloquentQuery()->where('user_id', $user->id);
+    }
+
+    public static function canCreate(): bool
+    {
+        if (Auth::user()->role === 'admin') {
+            return true;
+        }
+        $subscription = Subscription::where('user_id', Auth::user()->id)
+            ->where('is_active', true)
+            ->where('end_date', '>', now())
+            ->latest()
+            ->first();
+        $countProduct = Product::where('user_id', Auth::user()->id)->count();
+        return !($countProduct >= 5 && !$subscription);        
     }
 
     public static function form(Form $form): Form
