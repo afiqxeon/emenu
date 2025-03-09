@@ -19,7 +19,6 @@ use Filament\Forms\Components\Get;
 use Filament\Forms\Components\Set;
 
 
-
 class TransactionResource extends Resource
 {
     protected static ?string $model = Transaction::class;
@@ -27,6 +26,16 @@ class TransactionResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
     protected static ?string $navigationLabel = 'Manajemen Transaksi';
     protected static ?string $label = 'Transaksi';
+
+    public static function getEloquentQuery(): Builder
+    {
+        $user = Auth::user();
+        if ($user->role === 'admin') {
+            return parent::getEloquentQuery();
+        }
+        return parent::getEloquentQuery()->where('user_id', $user->id);
+    }
+
 
     public static function form(Form $form): Form
     {
