@@ -39,7 +39,7 @@ class="absolute top-0 w-full h-[170px] rounded-b-[45px] bg-[linear-gradient(90de
 <div class="swiper w-full">
     <div class="swiper-wrapper mt-[20px]">
         @foreach ($store->productCategories as $category)
-            <a href="#" class="swiper-slide !w-fit">
+            <a href="{{ route('product.findResults', $store->username) . '?category=' . $category->slug }}" class="swiper-slide !w-fit">
             <div class="flex flex-col items-center shrink-0 gap-2 text-center">
                 <div
                     class="w-[64px] h-[64px] rounded-full flex shrink-0 overflow-hidden p-4 bg-[#9393931A] bg-opacity-10">
@@ -145,7 +145,7 @@ class="absolute top-0 w-full h-[170px] rounded-b-[45px] bg-[linear-gradient(90de
                     <button type="button"
                         class="flex items-center justify-center w-[24px] h-[24px] rounded-full bg-transparent"
                         data-id="{{ $product->id }}" onclick="addToCart(this.dataset.id)">
-                        <img src="assets/images/icons/ic_plus.svg" class="w-full h-full" alt="icon">
+                        <img src="{{ asset('assets/images/icons/ic_plus.svg') }}" class="w-full h-full" alt="icon">
                     </button>
                 </div>
             </div>
