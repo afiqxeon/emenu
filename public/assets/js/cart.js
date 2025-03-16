@@ -30,11 +30,18 @@ document.addEventListener("DOMContentLoaded", function () {
 function calculateTotal() {
     const prices = document.querySelectorAll('p[id="price"]');
     let total = 0;
-    prices.forEach(priceElement => {
-        const price = parseInt(priceElement.textContent.replace(/[^0-9]/g, ''), 10);
-        const qty = parseInt(priceElement.closest('.flex').querySelector('#qty').textContent, 10);
+    prices.forEach((priceElement) => {
+        const price = parseInt(
+            priceElement.textContent.replace(/[^0-9]/g, ""),
+            10
+        );
+        const qty = parseInt(
+            priceElement.closest(".flex").querySelector("#qty").textContent,
+            10
+        );
         total += price * qty;
     });
-    document.getElementById('totalAmount').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+    document.getElementById(
+        "totalAmount"
+    ).textContent = `Rp ${total.toLocaleString("id-ID")}`;
 }
-
